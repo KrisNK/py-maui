@@ -129,9 +129,9 @@ impl WaveformSubsystem {
             directory.insert(0, '\\');
         }
 
-        let set_save_to_file: String = "VBS 'app.SaveRecall.Waveform.SaveTo=\"File\"'".into();
-        let set_save_directory = format!("VBS 'app.SaveRecall.Waveform.WaveformDir=\"{}\"'", directory);
-        let set_trace_title = format!("VBS 'app.SaveRecall.Waveform.TraceTitle=\"{}\"'", title_prefix);
+        let set_save_to_file: String = "VBS 'app.SaveRecall.Waveform.SaveTo=\"File\"';".into();
+        let set_save_directory = format!("VBS 'app.SaveRecall.Waveform.WaveformDir=\"{}\"';", directory);
+        let set_trace_title = format!("VBS 'app.SaveRecall.Waveform.TraceTitle=\"{}\"';", title_prefix);
 
         self.client.command(&set_save_to_file)?;
         self.client.command(&set_save_directory)?;
