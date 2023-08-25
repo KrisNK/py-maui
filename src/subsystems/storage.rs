@@ -137,7 +137,7 @@ impl StorageSubsystem {
 
         // setup the command
         let set_dir_cmd: String = format!(
-            "VBS 'app.SaveRecall.Utilities.Directory=\"{}\"'",
+            "VBS 'app.SaveRecall.Utilities.Directory=\"{}\"';",
             directory
         );
         // let create_dir_cmd: String = "VBS 'app.SaveRecall.Utilities.CreateDir'".into();
@@ -168,10 +168,10 @@ impl StorageSubsystem {
 
         // setup the command
         let set_dir_cmd: String = format!(
-            "VBS 'app.SaveRecall.Utilities.Directory=\"{}\"'",
+            "VBS 'app.SaveRecall.Utilities.Directory=\"{}\"';",
             directory
         );
-        let del_all_cmd: String = "VBS 'app.SaveRecall.Utilities.DeleteAll'".into();
+        let del_all_cmd: String = "VBS 'app.SaveRecall.Utilities.DeleteAll';".into();
 
         // run the commands
         self.client.command(&set_dir_cmd)?;
