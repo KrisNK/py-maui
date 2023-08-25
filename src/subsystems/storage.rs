@@ -5,7 +5,7 @@
 
 use pyo3::prelude::*;
 
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use instrument_ctl::Instrument;
 use std::fs::OpenOptions;
 use std::{
@@ -96,12 +96,6 @@ impl StorageSubsystem {
         device_filepath: String,
         controller_filepath: String,
     ) -> Result<()> {
-        // open the controller filepath
-        let mut file = OpenOptions::new()
-            .create_new(true)
-            .write(true)
-            .open(controller_filepath)?;
-
         // make sure the device filepath has a DOS filepath
         let device_filepath = device_filepath.replace("/", "\\");
 
@@ -109,9 +103,20 @@ impl StorageSubsystem {
         let cmd = format!("TRANSFER_FILE? DISK,HDD,FILE,'{}'", device_filepath);
         // execute the command
         let data = self.client.query(&cmd)?;
+        
+        if data.len() == 0 {
+            return Err(anyhow!("file not found"));
+        }
 
         // remove the byte count and CRC string
         let data = data[11..data.len() - 8].to_owned();
+
+        // open the controller filepath
+        let mut file = OpenOptions::new()
+            .create_new(true)
+            .write(true)
+            .open(controller_filepath)?;
+
 
         // save the data to the file
         file.write_all(&data.as_bytes())?;
